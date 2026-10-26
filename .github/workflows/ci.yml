@@ -1,0 +1,16 @@
+name: Technical Journal checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python manage.py test && python manage.py check
+        env:
+          DJANGO_SECRET_KEY: ci-only-not-for-production-technical-journal-key-01234567890123456789
